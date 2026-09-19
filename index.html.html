@@ -507,6 +507,35 @@
 
   .letter .linkbtn { font: inherit; color: inherit; background: none; border: 0; padding: 0; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
   .letter .linkbtn:hover { color: var(--leaf-d); }
+
+  /* ---------- Header: compact menu on small screens ---------- */
+  .bar-right { display: flex; align-items: center; }
+  .menu-btn, .theme-ico { display: none; }
+  @media (max-width: 940px) {
+    html { scroll-padding-top: 84px; }
+    header.site { top: 8px; padding-top: 8px; }
+    .bar-row { position: relative; padding: 6px 8px 6px 18px; gap: 8px; }
+    .bar-right { gap: 8px; }
+    .theme-btn, .menu-btn { width: 42px; height: 42px; margin: 0; padding: 0; display: grid; place-items: center; border-radius: 50%; }
+    .theme-text { display: none; }
+    .theme-ico { display: block; width: 22px; height: 22px; }
+    .menu-btn { border: 3px solid var(--line); background: var(--panel-2); color: var(--text); cursor: pointer; }
+    .menu-btn:hover { border-color: var(--leaf); }
+    .menu-btn svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; }
+    .menu-btn .ico-close { display: none; }
+    header.site.menu-open .menu-btn .ico-open { display: none; }
+    header.site.menu-open .menu-btn .ico-close { display: inline; }
+    header.site.menu-open .menu-btn { background: var(--leaf); border-color: var(--leaf); color: var(--on-accent); }
+    nav.main {
+      display: none; position: absolute; left: 0; right: 0; top: calc(100% + 10px);
+      grid-template-columns: 1fr 1fr; gap: 6px; padding: 10px;
+      background: var(--panel); border: 3px solid var(--line); border-radius: 26px;
+      box-shadow: 0 4px 0 var(--line);
+    }
+    header.site.menu-open nav.main { display: grid; }
+    nav.main a { padding: 12px 14px; font-size: 1.1rem; text-align: center; border-radius: 18px; background: var(--panel-2); }
+    nav.main a.active { background: var(--leaf); }
+  }
 </style>
 </head>
 <body id="top">
@@ -526,15 +555,18 @@
   <div class="wrap">
     <div class="bar-row">
       <a class="brand" href="#top" aria-label="Back to top"><i aria-hidden="true"></i>Santosh</a>
-      <nav class="main" aria-label="Sections">
-        <a href="#story">Story</a>
-        <a href="#work">Work</a>
-        <a href="#iyracare">IyraCare</a>
-        <a href="#experience">Experience</a>
-        <a href="#skills">Skills</a>
-        <a href="#contact">Contact</a>
-        <button class="theme-btn" id="themeBtn" type="button" aria-label="Switch between day and night theme">Day / Night</button>
-      </nav>
+      <div class="bar-right">
+        <nav class="main" id="siteNav" aria-label="Sections">
+          <a href="#story">Story</a>
+          <a href="#work">Work</a>
+          <a href="#iyracare">IyraCare</a>
+          <a href="#experience">Experience</a>
+          <a href="#skills">Skills</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <button class="theme-btn" id="themeBtn" type="button" aria-label="Switch between day and night theme"><span class="theme-text">Day / Night</span><svg class="theme-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M12 4a8 8 0 0 0 0 16z" fill="currentColor"/></svg></button>
+        <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="siteNav" aria-label="Open menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="ico-open" d="M5 8h14M5 12h14M5 16h14"/><path class="ico-close" d="M6 6l12 12M18 6L6 18"/></svg></button>
+      </div>
     </div>
   </div>
 </header>
@@ -1156,6 +1188,26 @@
       root.setAttribute("data-theme", next);
       try { localStorage.setItem("theme", next); } catch (e) {}
     });
+  })();
+
+  /* Mobile menu */
+  (function () {
+    var header = document.querySelector("header.site");
+    var btn = document.getElementById("menuBtn");
+    var nav = document.getElementById("siteNav");
+    if (!header || !btn || !nav) return;
+    function set(open) {
+      header.classList.toggle("menu-open", open);
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+      btn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    }
+    btn.addEventListener("click", function () { set(!header.classList.contains("menu-open")); });
+    nav.addEventListener("click", function (e) { if (e.target.closest("a")) set(false); });
+    document.addEventListener("click", function (e) { if (header.classList.contains("menu-open") && !header.contains(e.target)) set(false); });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && header.classList.contains("menu-open")) { set(false); btn.focus(); }
+    });
+    window.addEventListener("resize", function () { if (window.innerWidth > 940) set(false); });
   })();
 
   /* Copy email */
