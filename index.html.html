@@ -642,6 +642,33 @@
     .lb-panel img { max-height: calc(100vh - 220px); }
   }
 </style>
+
+<style id="v4-carousel">
+  .carousel { position: relative; }
+  .carousel-viewport { position: relative; overflow: hidden; border-radius: 18px; border: 3px solid var(--line); box-shadow: 0 5px 0 var(--line); background: #fffdf5; height: clamp(210px, 34vw, 440px); touch-action: pan-y; }
+  .carousel-track { display: flex; height: 100%; transition: transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1); }
+  .carousel-slide { flex: 0 0 100%; min-width: 0; height: 100%; }
+  .carousel .shot-btn { display: flex; flex-direction: column; width: 100%; height: 100%; padding: 0; margin: 0; border: 0; box-shadow: none; border-radius: 0; background: transparent; cursor: pointer; font: inherit; color: inherit; text-align: left; }
+  .carousel .shot-btn:hover { transform: none; }
+  .carousel .shot-btn img { flex: 1; min-height: 0; width: 100%; height: 100%; object-fit: contain; background: #fffdf5; }
+  .carousel .shot-zoom { position: absolute; right: 10px; bottom: 10px; }
+  .car-btn { position: absolute; top: 50%; margin-top: -20px; width: 40px; height: 40px; padding: 0; border-radius: 50%; border: 3px solid var(--wood); background: var(--sun); color: var(--on-accent); display: grid; place-items: center; cursor: pointer; box-shadow: 0 4px 0 var(--wood-d); z-index: 2; }
+  .car-btn:hover { transform: translateY(2px); box-shadow: 0 2px 0 var(--wood-d); }
+  .car-btn svg { width: 18px; height: 18px; }
+  .car-prev { left: 10px; }
+  .car-next { right: 10px; }
+  .carousel-caption { margin: 12px 0 0 !important; color: var(--muted); font-size: 1rem; line-height: 1.35; min-height: 2.7em; }
+  .carousel-dots { display: flex; justify-content: center; gap: 8px; margin-top: 10px; }
+  .car-dot { width: 10px; height: 10px; padding: 0; border-radius: 50%; border: 2px solid var(--line-strong); background: var(--panel-2); cursor: pointer; }
+  .car-dot.active { background: var(--leaf); border-color: var(--leaf); }
+  @media (max-width: 560px) { .car-btn { width: 34px; height: 34px; margin-top: -17px; } .car-btn svg { width: 15px; height: 15px; } }
+  @media (prefers-reduced-motion: reduce) { .carousel-track { transition: none; } }
+</style>
+<style id="v5-iyra-brand">
+  .iyra-brand { display: inline-block; background: #fffdf5; border: 3px solid var(--line); border-radius: 20px; padding: 12px 24px; box-shadow: 0 5px 0 var(--line); margin-bottom: 20px; line-height: 0; }
+  .iyra-brand img { display: block; height: 40px; width: auto; }
+  @media (max-width: 560px) { .iyra-brand { padding: 9px 18px; } .iyra-brand img { height: 30px; } }
+</style>
 </head>
 <body id="top">
 
@@ -652,7 +679,7 @@
   <div class="boot-card">
     <h1>Welcome to Santosh's Island</h1>
     <p id="bootMsg">Landing on the island...</p>
-    <button class="btn" id="startBtn" type="button">Step inside</button>
+    <button class="btn" id="startBtn" type="button">Step outside</button>
   </div>
 </div>
 
@@ -814,7 +841,7 @@
           </div>
           <dl>
             <dt>Job</dt><dd>Software Engineer</dd>
-            <dt>Company</dt><dd>SaveEnergyNow</dd>
+            <dt>Current company</dt><dd>SaveEnergyNow</dd>
             <dt>Startup</dt><dd><a href="https://iyracare.com/" target="_blank" rel="noopener" style="text-underline-offset:4px">Co-founder, IyraCare</a></dd>
             <dt>Hometown</dt><dd>Hyderabad, India</dd>
             <dt>Status</dt><dd><span class="open">Open to work</span></dd>
@@ -911,23 +938,29 @@
                 <div class="flow-node"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="24" fill="#ff9c94"/><rect x="11" y="15" width="26" height="19" rx="3.5" fill="#fffdf5"/><path d="M12.5 17.5L24 26l11.5-8.5" stroke="#ff9c94" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><div><b>Gmail</b><span>Email drafts and customer emails</span></div></div>
               </div>
             </div>
-            <div class="shots shots-2">
-              <figure class="shot">
-                <button type="button" class="shot-btn" data-lb="flowsync" aria-label="Enlarge screenshot: FlowSync dashboard">
-                  <span class="frame-bar" aria-hidden="true"><i></i><i></i><i></i></span>
-                  <img src="assets/flowsync-dashboard.webp" width="1092" height="863" loading="lazy" alt="FlowSync dashboard with cards for pending job submissions, pending compliance documents and pending emails">
-                  <span class="shot-zoom" aria-hidden="true">Enlarge</span>
-                </button>
-                <figcaption>Dashboard: pending submissions, compliance documents and unsent emails at a glance.</figcaption>
-              </figure>
-              <figure class="shot">
-                <button type="button" class="shot-btn" data-lb="flowsync" aria-label="Enlarge screenshot: FlowSync job detail">
-                  <span class="frame-bar" aria-hidden="true"><i></i><i></i><i></i></span>
-                  <img src="assets/flowsync-job-detail.webp" width="728" height="863" loading="lazy" alt="FlowSync job detail page with customer, installation, compliance and installer sections and action buttons to create a folder and draft emails">
-                  <span class="shot-zoom" aria-hidden="true">Enlarge</span>
-                </button>
-                <figcaption>Job detail: everything for one job, with one-click folder and email actions.</figcaption>
-              </figure>
+            <div class="carousel" data-carousel="flowsync">
+              <div class="carousel-viewport" tabindex="0" aria-roledescription="carousel" aria-label="FlowSync screenshots">
+                <div class="carousel-track">
+                  <div class="carousel-slide">
+                    <button type="button" class="shot-btn" data-lb="flowsync" aria-label="Enlarge screenshot: FlowSync dashboard" data-caption="Dashboard: pending submissions, compliance documents and unsent emails at a glance.">
+                      <span class="frame-bar" aria-hidden="true"><i></i><i></i><i></i></span>
+                      <img src="assets/flowsync-dashboard.webp" width="1092" height="863" loading="lazy" alt="FlowSync dashboard with cards for pending job submissions, pending compliance documents and pending emails">
+                      <span class="shot-zoom" aria-hidden="true">Enlarge</span>
+                    </button>
+                  </div>
+                  <div class="carousel-slide">
+                    <button type="button" class="shot-btn" data-lb="flowsync" aria-label="Enlarge screenshot: FlowSync job detail" data-caption="Job detail: everything for one job, with one-click folder and email actions.">
+                      <span class="frame-bar" aria-hidden="true"><i></i><i></i><i></i></span>
+                      <img src="assets/flowsync-job-detail.webp" width="728" height="863" loading="lazy" alt="FlowSync job detail page with customer, installation, compliance and installer sections and action buttons to create a folder and draft emails">
+                      <span class="shot-zoom" aria-hidden="true">Enlarge</span>
+                    </button>
+                  </div>
+                </div>
+                <button type="button" class="car-btn car-prev" aria-label="Previous screenshot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+                <button type="button" class="car-btn car-next" aria-label="Next screenshot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+              </div>
+              <p class="carousel-caption"></p>
+              <div class="carousel-dots" role="tablist" aria-label="FlowSync screenshot slides"></div>
             </div>
             <p class="shots-note">Screenshots are from the live tool. Customer details and prices are blurred.</p>
             <div class="pills"><span class="pill">Google Apps Script</span><span class="pill">JavaScript</span><span class="pill">Google Sheets</span><span class="pill">Google Drive</span><span class="pill">Gmail</span></div>
@@ -948,39 +981,43 @@
                 <li>Vendor comparison to find the best supplier price.</li>
               </ul>
             </div>
-            <div class="shots shots-4">
-              <figure class="shot">
-                <button type="button" class="shot-btn" data-lb="quote" aria-label="Enlarge screenshot: Quote Builder steps">
-                  <span class="frame-bar" aria-hidden="true"><i></i><i></i><i></i></span>
-                  <img src="assets/quote-steps.webp" width="908" height="510" loading="lazy" alt="Quote Builder with step 1, customer details, and step 2, product type: hot water systems, air conditioning, batteries, solar panels, solar PV and battery">
-                  <span class="shot-zoom" aria-hidden="true">Enlarge</span>
-                </button>
-                <figcaption>Step by step: customer name, product type, then the product.</figcaption>
-              </figure>
-              <figure class="shot">
-                <button type="button" class="shot-btn" data-lb="quote" aria-label="Enlarge screenshot: product catalog">
-                  <span class="frame-bar" aria-hidden="true"><i></i><i></i><i></i></span>
-                  <img src="assets/quote-products.webp" width="1500" height="712" loading="lazy" alt="Quote Builder product catalog showing heat pump cards with model, warranty, a brochure button and a select button, plus brand and capacity filters">
-                  <span class="shot-zoom" aria-hidden="true">Enlarge</span>
-                </button>
-                <figcaption>Search and filter by brand and capacity, open the brochure, then select.</figcaption>
-              </figure>
-              <figure class="shot">
-                <button type="button" class="shot-btn" data-lb="quote" aria-label="Enlarge screenshot: photo preview">
-                  <span class="frame-bar" aria-hidden="true"><i></i><i></i><i></i></span>
-                  <img src="assets/quote-photo-preview.webp" width="1500" height="710" loading="lazy" alt="Quote Builder air conditioning products with an enlarged product photo preview and a change photo option">
-                  <span class="shot-zoom" aria-hidden="true">Enlarge</span>
-                </button>
-                <figcaption>Preview or change a product photo without leaving the page.</figcaption>
-              </figure>
-              <figure class="shot">
-                <button type="button" class="shot-btn" data-lb="quote" aria-label="Enlarge screenshot: generated quote">
-                  <span class="frame-bar" aria-hidden="true"><i></i><i></i><i></i></span>
-                  <img src="assets/quote-generated.webp" width="1500" height="712" loading="lazy" alt="Generated quote message with included items, local warranties, brochure link and a copy message button">
-                  <span class="shot-zoom" aria-hidden="true">Enlarge</span>
-                </button>
-                <figcaption>The finished quote, ready to copy and send, with warranties, brochure link and rebate note.</figcaption>
-              </figure>
+            <div class="carousel" data-carousel="quote">
+              <div class="carousel-viewport" tabindex="0" aria-roledescription="carousel" aria-label="Quote Builder screenshots">
+                <div class="carousel-track">
+                  <div class="carousel-slide">
+                    <button type="button" class="shot-btn" data-lb="quote" aria-label="Enlarge screenshot: Quote Builder steps" data-caption="Step by step: customer name, product type, then the product.">
+                      <span class="frame-bar" aria-hidden="true"><i></i><i></i><i></i></span>
+                      <img src="assets/quote-steps.webp" width="908" height="510" loading="lazy" alt="Quote Builder with step 1, customer details, and step 2, product type: hot water systems, air conditioning, batteries, solar panels, solar PV and battery">
+                      <span class="shot-zoom" aria-hidden="true">Enlarge</span>
+                    </button>
+                  </div>
+                  <div class="carousel-slide">
+                    <button type="button" class="shot-btn" data-lb="quote" aria-label="Enlarge screenshot: product catalog" data-caption="Search and filter by brand and capacity, open the brochure, then select.">
+                      <span class="frame-bar" aria-hidden="true"><i></i><i></i><i></i></span>
+                      <img src="assets/quote-products.webp" width="1500" height="712" loading="lazy" alt="Quote Builder product catalog showing heat pump cards with model, warranty, a brochure button and a select button, plus brand and capacity filters">
+                      <span class="shot-zoom" aria-hidden="true">Enlarge</span>
+                    </button>
+                  </div>
+                  <div class="carousel-slide">
+                    <button type="button" class="shot-btn" data-lb="quote" aria-label="Enlarge screenshot: photo preview" data-caption="Preview or change a product photo without leaving the page.">
+                      <span class="frame-bar" aria-hidden="true"><i></i><i></i><i></i></span>
+                      <img src="assets/quote-photo-preview.webp" width="1500" height="710" loading="lazy" alt="Quote Builder air conditioning products with an enlarged product photo preview and a change photo option">
+                      <span class="shot-zoom" aria-hidden="true">Enlarge</span>
+                    </button>
+                  </div>
+                  <div class="carousel-slide">
+                    <button type="button" class="shot-btn" data-lb="quote" aria-label="Enlarge screenshot: generated quote" data-caption="The finished quote, ready to copy and send, with warranties, brochure link and rebate note.">
+                      <span class="frame-bar" aria-hidden="true"><i></i><i></i><i></i></span>
+                      <img src="assets/quote-generated.webp" width="1500" height="712" loading="lazy" alt="Generated quote message with included items, local warranties, brochure link and a copy message button">
+                      <span class="shot-zoom" aria-hidden="true">Enlarge</span>
+                    </button>
+                  </div>
+                </div>
+                <button type="button" class="car-btn car-prev" aria-label="Previous screenshot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+                <button type="button" class="car-btn car-next" aria-label="Next screenshot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+              </div>
+              <p class="carousel-caption"></p>
+              <div class="carousel-dots" role="tablist" aria-label="Quote Builder screenshot slides"></div>
             </div>
             <p class="shots-note">Screenshots are from the live tool. Prices are blurred.</p>
             <div class="pills"><span class="pill">Google Apps Script</span><span class="pill">JavaScript</span><span class="pill">Google Sheets</span></div>
@@ -995,6 +1032,10 @@
 
   <section id="iyracare" aria-labelledby="iyra-h">
     <div class="wrap">
+      <picture class="iyra-brand">
+        <source srcset="assets/iyra-logo.webp" type="image/webp">
+        <img src="assets/iyra-logo.png" width="380" height="103" loading="lazy" alt="IyraCare logo">
+      </picture>
       <h2 id="iyra-h">IyraCare, my startup</h2>
       <p class="lede">A modern operating system for medical centres. I co-founded it in February 2026 and work on it full-time, remotely, alongside my engineering role.</p>
       <div class="iyra-grid">
@@ -2293,10 +2334,10 @@
   });
 
   function show() {
-    var b = groups[cur][idx], im = b.querySelector("img"), fc = b.closest("figure").querySelector("figcaption");
+    var b = groups[cur][idx], im = b.querySelector("img");
     img.src = im.currentSrc || im.src;
     img.alt = im.alt;
-    cap.textContent = fc ? fc.textContent : "";
+    cap.textContent = b.getAttribute("data-caption") || "";
     count.textContent = (idx + 1) + " of " + groups[cur].length;
     lb.classList.toggle("lb-single", groups[cur].length < 2);
   }
@@ -2329,6 +2370,85 @@
       e.preventDefault();
       f[(i + (e.shiftKey ? -1 : 1) + f.length) % f.length].focus();
     }
+  });
+})();
+</script>
+
+<script>
+/* Screenshot carousels */
+(function () {
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.querySelectorAll(".carousel").forEach(function (car) {
+    var track = car.querySelector(".carousel-track");
+    var slides = Array.prototype.slice.call(car.querySelectorAll(".carousel-slide"));
+    var vp = car.querySelector(".carousel-viewport");
+    var prevBtn = car.querySelector(".car-prev");
+    var nextBtn = car.querySelector(".car-next");
+    var dotsWrap = car.querySelector(".carousel-dots");
+    var capEl = car.querySelector(".carousel-caption");
+    var idx = 0, timer = null;
+
+    slides.forEach(function (_, i) {
+      var dot = document.createElement("button");
+      dot.type = "button";
+      dot.className = "car-dot";
+      dot.setAttribute("role", "tab");
+      dot.setAttribute("aria-label", "Go to slide " + (i + 1) + " of " + slides.length);
+      dot.addEventListener("click", function () { go(i); });
+      dotsWrap.appendChild(dot);
+    });
+    var dots = Array.prototype.slice.call(dotsWrap.children);
+
+    if (slides.length < 2) {
+      if (prevBtn) prevBtn.style.display = "none";
+      if (nextBtn) nextBtn.style.display = "none";
+      dotsWrap.style.display = "none";
+    }
+
+    function update() {
+      track.style.transform = "translateX(-" + idx * 100 + "%)";
+      dots.forEach(function (d, i) {
+        var on = i === idx;
+        d.classList.toggle("active", on);
+        d.setAttribute("aria-selected", on ? "true" : "false");
+      });
+      var btn = slides[idx].querySelector(".shot-btn");
+      if (capEl) capEl.textContent = btn.getAttribute("data-caption") || "";
+    }
+    function go(i) { idx = (i + slides.length) % slides.length; update(); }
+
+    if (prevBtn) prevBtn.addEventListener("click", function () { go(idx - 1); stop(); play(); });
+    if (nextBtn) nextBtn.addEventListener("click", function () { go(idx + 1); stop(); play(); });
+
+    vp.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowLeft") { go(idx - 1); stop(); play(); }
+      else if (e.key === "ArrowRight") { go(idx + 1); stop(); play(); }
+    });
+
+    var startX = null, dragging = false;
+    vp.addEventListener("pointerdown", function (e) { startX = e.clientX; dragging = true; });
+    vp.addEventListener("pointerup", function (e) {
+      if (!dragging) return;
+      dragging = false;
+      var dx = e.clientX - startX;
+      if (Math.abs(dx) > 40) { go(idx + (dx < 0 ? 1 : -1)); stop(); play(); }
+    });
+    vp.addEventListener("pointercancel", function () { dragging = false; });
+
+    function play() {
+      if (reduce || slides.length < 2) return;
+      stop();
+      timer = setInterval(function () { go(idx + 1); }, 5000);
+    }
+    function stop() { if (timer) { clearInterval(timer); timer = null; } }
+
+    car.addEventListener("mouseenter", stop);
+    car.addEventListener("mouseleave", play);
+    car.addEventListener("focusin", stop);
+    car.addEventListener("focusout", play);
+
+    update();
+    play();
   });
 })();
 </script>
